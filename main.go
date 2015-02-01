@@ -33,9 +33,9 @@ const (
 
 func main() {
 	flag.Parse()
-	setLogger()
-	setWorkDir()
 
+	setWorkDir()
+	setLogger()
 	db := conn()
 	db.LogMode(false)
 	if *migrate != false {
