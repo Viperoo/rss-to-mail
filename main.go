@@ -25,6 +25,10 @@ func init() {
 		fmt.Printf("Usage: rss-to-mail [options] paramflag>\n\n")
 		flag.PrintDefaults()
 	}
+
+	if len(flag.Args()) == 0 {
+		flag.Usage()
+	}
 }
 
 const (

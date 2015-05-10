@@ -53,20 +53,24 @@ img {
 <body>
 
 <dl class="dl-horizontal">
+	<dt>Description:</dt>
+</dl>
+	<p style="clear:both">
+	{{ .Item.Description}}
+</p>
+<dl class="dl-horizontal">
+
 	<dt>Pub date:</dt>
     <dd>{{ .Time }}</dd>
+	<dt>Author:</dt>
+    <dd>{{ .Author }}</dd>
     <dt>Website:</dt>
     <dd>{{ .Website.Title }}</dd>
     <dt>Title:</dt>
 	<dd>{{ .Item.Title }}</dd>
 	<dt>Link:</dt>
 	<dd>{{ .Item.Link }} [<a href="{{ .Item.Link }}">link</a>]</dd>
-	<dt>Description:</dt>
-	</dl>
-	<p style="clear:both">
-	{{ .Item.Description}}
-</p>
-<dl class="dl-horizontal">
+	
 	<dt>See more:</dt>
     <dd><a href="{{ .Item.Link}}">Here</a> </dd>
 </dl>
