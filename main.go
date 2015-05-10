@@ -9,26 +9,24 @@ import (
 	"io"
 	"os"
 	"os/user"
+	"strconv"
 )
 
 var logger log.Logger
 var workdir string
 
 var url = flag.String("a", "", "Add website [url]")
-var remove = flag.String("r", "", "Remove website [url]")
+var remove = flag.String("r", "", "Remove website [url][id website]")
 var list = flag.Bool("l", false, "List added websites")
 var check = flag.Bool("c", false, "Check for updates and send mail")
 var migrate = flag.Bool("m", false, "Migrate database")
 
 func init() {
 	flag.Usage = func() {
-		fmt.Printf("Usage: rss-to-mail [options] paramflag>\n\n")
+		fmt.Printf("Usage: rss-to-mail [options] >\n\n")
 		flag.PrintDefaults()
 	}
 
-	if len(flag.Args()) == 0 {
-		flag.Usage()
-	}
 }
 
 const (
@@ -131,10 +129,30 @@ func showList(db gorm.DB) {
 }
 
 func removeWebsite(db gorm.DB, url string) {
+
+	if _, err := strconv.Atoi(url); err == nil {
+		removeWebsiteById(db, url)
+	} else {
+		removeWebsiteByUrl(db, url)
+	}
+
+}
+
+func removeWebsiteByUrl(db gorm.DB, url string) {
 	var website Website
 	db.Where("url = ?", url).First(&website)
 	if website.Id == 0 {
 		logger.Warnf("There is not website with %v url", url)
+	} else {
+		db.Delete(&website)
+		logger.Infof("Deleted website with %v id", website.Id)
+	}
+}
+func removeWebsiteById(db gorm.DB, id string) {
+	var website Website
+	db.Where("id = ?", id).First(&website)
+	if website.Id == 0 {
+		logger.Warnf("There is not website with %v id", id)
 	} else {
 		db.Delete(&website)
 		logger.Infof("Deleted website with %v id", website.Id)
