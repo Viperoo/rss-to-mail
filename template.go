@@ -62,8 +62,6 @@ img {
 
 	<dt>Pub date:</dt>
     <dd>{{ .Time }}</dd>
-	<dt>Author:</dt>
-    <dd>{{ .Author }}</dd>
     <dt>Website:</dt>
     <dd>{{ .Website.Title }}</dd>
     <dt>Title:</dt>
